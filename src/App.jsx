@@ -31,7 +31,19 @@ function addTask(){
       
     })
     .then(res=>res.json())
-    .then(updated=>setTasks(tasks.map((task)=>(task==id? updated:task))))
+    .then(updated=>setTasks(tasks.map((task)=>(task.id ==id? updated:task))))
+  }
+  function editTask(id,newTask){
+    fetch(`${url}/{id}`,{
+      method:'PATCH',
+      headers: {"Content-type":"application/type"},
+      body: JSON.stringify({text:newText})
+    })
+    .then(res=>res.json())
+    .then(updated=>{
+      setTasks(tasks.map((task)=>task.id==id?updated:task))
+
+  })
   }
 
   
