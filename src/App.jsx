@@ -9,7 +9,7 @@ fetch(url)
 .then((res)=>res.json())
 .then(setTasks)
 .catch(err=>console.error("error fetching:",err))
-
+},[])
 function addTask(){
   if(input.trim)return
   fetch (url,{
@@ -21,13 +21,23 @@ function addTask(){
   .then(newTask=>{
     setTasks([...tasks,newTask])
     setInput("")
-  })
-  
+  })}
+  function toogleTask(id,completed){
+    fetch(`${url}/${id}`,{
+      method : 'PATCH',
+      headers: {'Content-type':'application/json'},
+      body: JSON.stringify({completed :! completed})
+
+      
+    })
+    .then(res=>res.json())
+    .then(updated=>setTasks(tasks.map((task)=>(task==id? updated:task))))
+  }
 
   
 
-}
-},[])
+
+
   return (
     
     <>
