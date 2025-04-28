@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import Tasklist from "./Tasklist"
 
 function App() {
 const url ="http://localhost:3000/tasks"
@@ -67,6 +68,12 @@ function addTask(){
       value={input}
       onChange={(e)=>setInput(e.target.value)}
       placeholder="Add new task"
+      />
+      <Tasklist
+      tasks={tasks}
+      onDelete={deleteTask}
+      onEdit={editTask}
+      onToggle={toogleTask}
       />
 
 
