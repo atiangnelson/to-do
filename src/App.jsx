@@ -11,7 +11,7 @@ fetch(url)
 .catch(err=>console.error("error fetching:",err))
 },[])
 function addTask(){
-  if(input.trim)return
+  if(input.trim())return
   fetch (url,{
     method: "POST",
     headers: {"Content-type":"application/json"},
@@ -34,9 +34,9 @@ function addTask(){
     .then(updated=>setTasks(tasks.map((task)=>(task.id ==id? updated:task))))
   }
   function editTask(id,newTask){
-    fetch(`${url}/{id}`,{
+    fetch(`${url}/${id}`,{
       method:'PATCH',
-      headers: {"Content-type":"application/type"},
+      headers: {"Content-type":"application/json"},
       body: JSON.stringify({text:newText})
     })
     .then(res=>res.json())
@@ -50,7 +50,7 @@ function addTask(){
       method :'DELETE'
     })
     .then(()=>{
-      setTasks(tasks.filter(task=>task.id!==task))
+      setTasks(tasks.filter(task=>task.id!==id))
     })
 
   }
@@ -61,9 +61,16 @@ function addTask(){
 
   return (
     
-    <>
-      
-    </>
+    <div className="app">
+      <h1>Task Tracker</h1>
+      <input
+      value={input}
+      onChange={(e)=>setInput(e.target.value)}
+      placeholder="Add new task"
+      />
+
+
+    </div>
   )
 }
 
