@@ -45,6 +45,15 @@ function addTask(){
 
   })
   }
+  function deleteTask(id){
+    fetch(`${url}/${id}`,{
+      method :'DELETE'
+    })
+    .then(()=>{
+      setTasks(tasks.filter(task=>task.id!==task))
+    })
+
+  }
 
   
 
