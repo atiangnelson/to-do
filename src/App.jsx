@@ -12,7 +12,7 @@ fetch(url)
 .catch(err=>console.error("error fetching:",err))
 },[])
 function addTask(){
-  if(input.trim())return
+  if(!input.trim())return
   fetch (url,{
     method: "POST",
     headers: {"Content-type":"application/json"},
@@ -20,10 +20,10 @@ function addTask(){
   })
   .then(res=>res.json())
   .then(newTask=>{
-    setTasks([...tasks,newTask])
+    setTasks(prevTasks=>[...prevTasks,newTask])
     setInput("")
   })}
-  function toogleTask(id,completed){
+  function toggleTask(id,completed){
     fetch(`${url}/${id}`,{
       method : 'PATCH',
       headers: {'Content-type':'application/json'},
@@ -32,17 +32,17 @@ function addTask(){
       
     })
     .then(res=>res.json())
-    .then(updated=>setTasks(tasks.map((task)=>(task.id ==id? updated:task))))
+    .then(updated=>setTasks(prevTasks=>prevTasks.map((task)=>(task.id ==id? updated:task))))
   }
   function editTask(id,newTask){
     fetch(`${url}/${id}`,{
       method:'PATCH',
       headers: {"Content-type":"application/json"},
-      body: JSON.stringify({text:newText})
+      body: JSON.stringify({text:newTask})
     })
     .then(res=>res.json())
     .then(updated=>{
-      setTasks(tasks.map((task)=>task.id==id?updated:task))
+      setTasks(prevTasks.map((task)=>task.id==id?updated:task))
 
   })
   }
@@ -69,11 +69,12 @@ function addTask(){
       onChange={(e)=>setInput(e.target.value)}
       placeholder="Add new task"
       />
+      <button onClick={addTask}>Add task</button>
       <Tasklist
       tasks={tasks}
       onDelete={deleteTask}
       onEdit={editTask}
-      onToggle={toogleTask}
+      onToggle={toggleTask}
       />
 
 
